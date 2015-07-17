@@ -31,9 +31,9 @@
 
 package my.timu;
 
-import my.struct.QuadTree.CoordHolder;
-import my.struct.QuadTree.Quad;
-import my.struct.QuadTree;
+import struct.quadtree.QuadTree.CoordHolder;
+import struct.quadtree.QuadTree.Quad;
+import struct.quadtree.QuadTree;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
