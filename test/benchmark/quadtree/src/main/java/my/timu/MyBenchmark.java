@@ -175,9 +175,69 @@ public class MyBenchmark {
     @Benchmark public void testStatic10_100_Gets4th()       { findAll(quadStat10_100, 1000.0, 500.0); }
     @Benchmark public void testStatic10_100_Replace()       { replace(coordStat10_100, 1000000, 10.0); }
 
+    
+    
+    private static QuadTree<Integer> wind_quadStat1000_100 = testBigWind(1000000, 100, 0, 0.5, 1.0);
+    private static CoordHolder wind_coordStat1000_100 = wind_quadStat1000_100.findAll(0.0,0.0, 500.0,500.0).get(0);
+    private static QuadTree<Integer> wind_quadStat100_100 = testBigWind(100000, 100, 0, 0.5, 1.0);
+    private static CoordHolder wind_coordStat100_100 = wind_quadStat100_100.findAll(0.0,0.0, 500.0,500.0).get(0);
+    private static QuadTree<Integer> wind_quadStat10_100 = testBigWind(10000, 100, 0, 0.5, 1.0);
+    private static CoordHolder wind_coordStat10_100 = wind_quadStat10_100.findAll(0.0,0.0, 500.0,500.0).get(0);
 
 
+    @Benchmark public void testWindStatic1000_100_()            { testBigWind(1000000, 100, 0, 0.333333, 1.0); }
+    @Benchmark public void testWindStatic1000_100_Gets100th()   { findAll(wind_quadStat1000_100, 1000.0, 100.0); }
+    @Benchmark public void testWindStatic1000_100_Gets16th()    { findAll(wind_quadStat1000_100, 1000.0, 250.0); }
+    @Benchmark public void testWindStatic1000_100_Gets4th()     { findAll(wind_quadStat1000_100, 1000.0, 500.0); }
+    @Benchmark public void testWindStatic1000_100_Replace()     { replace(wind_coordStat1000_100, 1000000, 10.0); }
+
+    @Benchmark public void testWindStatic100_100_()             { testBigWind(100000, 100, 0, 0.333333, 1.0); }
+    @Benchmark public void testWindStatic100_100_Gets100th()    { findAll(wind_quadStat100_100, 1000.0, 100.0); }
+    @Benchmark public void testWindStatic100_100_Gets16th()     { findAll(wind_quadStat100_100, 1000.0, 250.0); }
+    @Benchmark public void testWindStatic100_100_Gets4th()      { findAll(wind_quadStat100_100, 1000.0, 500.0); }
+    @Benchmark public void testWindStatic100_100_Replace()      { replace(wind_coordStat100_100, 1000000, 10.0); }
+    
+    @Benchmark public void testWindStatic10_100_()              { testBigWind(10000, 100, 0, 0.333333, 1.0); }
+    @Benchmark public void testWindStatic10_100_Gets100th()     { findAll(wind_quadStat10_100, 1000.0, 100.0); }
+    @Benchmark public void testWindStatic10_100_Gets16th()      { findAll(wind_quadStat10_100, 1000.0, 250.0); }
+    @Benchmark public void testWindStatic10_100_Gets4th()       { findAll(wind_quadStat10_100, 1000.0, 500.0); }
+    @Benchmark public void testWindStatic10_100_Replace()       { replace(wind_coordStat10_100, 1000000, 10.0); }
+
+    
+    private static QuadTree<Integer> wind_quadDyn1000_05 = testBigWind(1000000, 10, 1, 0.5, 1.0);
+    private static CoordHolder wind_coordDyn1000_05 = wind_quadDyn1000_05.findAll(0.0,0.0, 500.0,500.0).get(0);
+    private static QuadTree<Integer> wind_quadDyn100_05 = testBigWind(100000, 10, 1, 0.5, 1.0);
+    private static CoordHolder wind_coordDyn100_05 = wind_quadDyn100_05.findAll(0.0,0.0, 500.0,500.0).get(0);
+    private static QuadTree<Integer> wind_quadDyn10_05 = testBigWind(10000, 10, 1, 0.5, 1.0);
+    private static CoordHolder wind_coordDyn10_05 = wind_quadDyn10_05.findAll(0.0,0.0, 500.0,500.0).get(0);
+
+
+    @Benchmark public void testWindDyn1000_05_()            { testBigWind(1000000, 10, 1, 0.5, 1.0); }
+    @Benchmark public void testWindDyn1000_05_Gets100th()   { findAll(wind_quadDyn1000_05, 1000.0, 100.0); }
+    @Benchmark public void testWindDyn1000_05_Gets16th()    { findAll(wind_quadDyn1000_05, 1000.0, 250.0); }
+    @Benchmark public void testWindDyn1000_05_Gets4th()     { findAll(wind_quadDyn1000_05, 1000.0, 500.0); }
+    @Benchmark public void testWindDyn1000_05_Replace()     { replace(wind_coordDyn1000_05, 1000000, 10.0); }
+
+
+    @Benchmark public void testWindDyn100_05_()             { testBigWind(100000, 10, 1, 0.5, 1.0); }
+    @Benchmark public void testWindDyn100_05_Gets100th()    { findAll(wind_quadDyn100_05, 1000.0, 100.0); }
+    @Benchmark public void testWindDyn100_05_Gets16th()     { findAll(wind_quadDyn100_05, 1000.0, 250.0); }
+    @Benchmark public void testWindDyn100_05_Gets4th()      { findAll(wind_quadDyn100_05, 1000.0, 500.0); }
+    @Benchmark public void testWindDyn100_05_Replace()      { replace(wind_coordDyn100_05, 1000000, 10.0); }
+    
+    @Benchmark public void testWindDyn10_05_()              { testBigWind(10000, 10, 1, 0.5, 1.0); }
+    @Benchmark public void testWindDyn10_05_Gets100th()     { findAll(wind_quadDyn10_05, 1000.0, 100.0); }
+    @Benchmark public void testWindDyn10_05_Gets16th()      { findAll(wind_quadDyn10_05, 1000.0, 250.0); }
+    @Benchmark public void testWindDyn10_05_Gets4th()       { findAll(wind_quadDyn10_05, 1000.0, 500.0); }
+    @Benchmark public void testWindDyn10_05_Replace()       { replace(wind_coordDyn10_05, 1000000, 10.0); }
+
+    
     public static QuadTree<Integer> testBig(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP)
+    {
+        return testBigWind(nItems, MAX, DYNAMIC, BUCKET_EXP, 0.0);
+    }
+    
+    public static QuadTree<Integer> testBigWind(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP, double windowShift)
     {
         QuadTree<Integer> q = new QuadTree<>();
         q.LEAF_MAX_OBJECTS = MAX;
@@ -187,11 +247,12 @@ public class MyBenchmark {
 
         for(int i = 0; i < nItems; i++)
         {
-            q.place(Math.round(Math.random()*1000), Math.round(Math.random()*1000), i);
+            q.place(Math.round(Math.random()*1000) + (windowShift * i / (double)nItems),
+                    Math.round(Math.random()*1000), i);
         }
         return q;
     }
-
+    
     private void findAll(QuadTree<Integer> quad, double w, double part) {
         double
                 x0 = Math.random() * w - part / 2,
