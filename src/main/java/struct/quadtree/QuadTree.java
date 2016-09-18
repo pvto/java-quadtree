@@ -26,6 +26,7 @@ public class QuadTree<T> {
     public boolean DYNAMIC_MAX_OBJECTS = false;
     public double MAX_OBJ_TARGET_EXPONENT = 0.333333;
     private int size = 0;
+    public ListProvider<CoordHolder> LIST_PROVIDER = ListProvider.LP_LINKEDLIST;
 
     public class CoordHolder {
         public double x,y;
@@ -72,7 +73,7 @@ public class QuadTree<T> {
                 x1,y1,
                 x2,y2
                 ;
-        public List<CoordHolder> items = new LinkedList<>();
+        public List<CoordHolder> items = LIST_PROVIDER.getList(LEAF_MAX_OBJECTS, size);
 
 
         public Quad(Quad parent, double x1, double y1, double x2, double y2)

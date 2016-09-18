@@ -31,18 +31,19 @@
 
 package my.timu;
 
+import java.util.concurrent.TimeUnit;
 import struct.quadtree.QuadTree.CoordHolder;
-import struct.quadtree.QuadTree.Quad;
 import struct.quadtree.QuadTree;
 
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Warmup;
 
 
 public class MyBenchmark {
 
 
+/*
     private static QuadTree<Integer> quadDyn1000_33 = testBig(1000000, 10, 1, 0.333333);
     private static CoordHolder coordDyn1000_33 = quadDyn1000_33.findAll(0.0,0.0, 500.0,500.0).get(0);
     private static QuadTree<Integer> quadDyn100_33 = testBig(100000, 10, 1, 0.333333);
@@ -230,16 +231,90 @@ public class MyBenchmark {
     @Benchmark public void testWindDyn10_05_Gets16th()      { findAll(wind_quadDyn10_05, 1000.0, 250.0); }
     @Benchmark public void testWindDyn10_05_Gets4th()       { findAll(wind_quadDyn10_05, 1000.0, 500.0); }
     @Benchmark public void testWindDyn10_05_Replace()       { replace(wind_coordDyn10_05, 1000000, 10.0); }
+*/
+    
+/*
+    static QuadTree<Integer> g035LL = testBig(1000000, 10, 1, 0.35, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g035AL = testBig(1000000, 10, 1, 0.35, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g037LL = testBig(1000000, 10, 1, 0.375, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g037AL = testBig(1000000, 10, 1, 0.375, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g040LL = testBig(1000000, 10, 1, 0.4, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g040AL = testBig(1000000, 10, 1, 0.4, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g042LL = testBig(1000000, 10, 1, 0.425, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g042AL = testBig(1000000, 10, 1, 0.425, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g045LL = testBig(1000000, 10, 1, 0.45, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g045AL = testBig(1000000, 10, 1, 0.45, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g047LL = testBig(1000000, 10, 1, 0.475, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g047AL = testBig(1000000, 10, 1, 0.475, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g050LL = testBig(1000000, 10, 1, 0.50, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g050AL = testBig(1000000, 10, 1, 0.50, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g052LL = testBig(1000000, 10, 1, 0.525, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g052AL = testBig(1000000, 10, 1, 0.525, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g055LL = testBig(1000000, 10, 1, 0.55, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g055AL = testBig(1000000, 10, 1, 0.55, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g057LL = testBig(1000000, 10, 1, 0.575, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g057AL = testBig(1000000, 10, 1, 0.575, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g060LL = testBig(1000000, 10, 1, 0.60, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g060AL = testBig(1000000, 10, 1, 0.60, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g062LL = testBig(1000000, 10, 1, 0.625, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g062AL = testBig(1000000, 10, 1, 0.625, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g065LL = testBig(1000000, 10, 1, 0.65, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g065AL = testBig(1000000, 10, 1, 0.65, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g067LL = testBig(1000000, 10, 1, 0.675, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g067AL = testBig(1000000, 10, 1, 0.675, QuadTree.LP_ARRAYLIST);
+    static QuadTree<Integer> g070LL = testBig(1000000, 10, 1, 0.70, QuadTree.LP_LINKEDLIST);
+    static QuadTree<Integer> g070AL = testBig(1000000, 10, 1, 0.70, QuadTree.LP_ARRAYLIST);
+*/
 
+/*
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_035_LL_100th() { findAll(g035LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_035_AL_100th() { findAll(g035AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_037_LL_100th() { findAll(g037LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_037_AL_100th() { findAll(g037AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_040_LL_100th() { findAll(g040LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_040_AL_100th() { findAll(g040AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_042_LL_100th() { findAll(g042LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_042_AL_100th() { findAll(g042AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_045_LL_100th() { findAll(g045LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_045_AL_100th() { findAll(g045AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_047_LL_100th() { findAll(g047LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_047_AL_100th() { findAll(g047AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_050_LL_100th() { findAll(g050LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_050_AL_100th() { findAll(g050AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_052_LL_100th() { findAll(g052LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_052_AL_100th() { findAll(g052AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_055_LL_100th() { findAll(g055LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_055_AL_100th() { findAll(g055AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_057_LL_100th() { findAll(g057LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_057_AL_100th() { findAll(g057AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_060_LL_100th() { findAll(g060LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_060_AL_100th() { findAll(g060AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_062_LL_100th() { findAll(g062LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_062_AL_100th() { findAll(g062AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_065_LL_100th() { findAll(g065LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_065_AL_100th() { findAll(g065AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_067_LL_100th() { findAll(g067LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_067_AL_100th() { findAll(g067AL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_070_LL_100th() { findAll(g070LL, 1000.0, 100.0); }
+    @Benchmark @Measurement(timeUnit = TimeUnit.MILLISECONDS, time = 500) @Warmup(timeUnit = TimeUnit.MILLISECONDS, time = 500) public void grad1000_070_AL_100th() { findAll(g070AL, 1000.0, 100.0); }
+*/
     
     public static QuadTree<Integer> testBig(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP)
     {
-        return testBigWind(nItems, MAX, DYNAMIC, BUCKET_EXP, 0.0);
+        return testBig(nItems, MAX, DYNAMIC, BUCKET_EXP, QuadTree.LP_LINKEDLIST);
     }
-    
+    public static QuadTree<Integer> testBig(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP, QuadTree.ListProvider LP)
+    {
+        return testBigWind(nItems, MAX, DYNAMIC, BUCKET_EXP, 0.0);
+    }    
     public static QuadTree<Integer> testBigWind(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP, double windowShift)
     {
+        return testBigWind(nItems, MAX, DYNAMIC, BUCKET_EXP, windowShift, QuadTree.LP_LINKEDLIST);
+    }
+    public static QuadTree<Integer> testBigWind(int nItems, int MAX, int DYNAMIC, double BUCKET_EXP, double windowShift, QuadTree.ListProvider LP)
+    {
         QuadTree<Integer> q = new QuadTree<>();
+        if (LP != null) q.LIST_PROVIDER = LP;
         q.LEAF_MAX_OBJECTS = MAX;
         if (DYNAMIC > 0)
             q.DYNAMIC_MAX_OBJECTS = true;
