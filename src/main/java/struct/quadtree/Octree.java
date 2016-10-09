@@ -3,6 +3,8 @@ package struct.quadtree;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,8 +15,9 @@ public class Octree<T> {
 
     public int LEAF_MAX_OBJECTS = 10;
     public boolean DYNAMIC_MAX_OBJECTS = false;
-    public double MAX_OBJ_TARGET_EXPONENT = 0.333333;
+    public double MAX_OBJ_TARGET_EXPONENT = 0.5;
     private int size = 0;
+    private int dirty = 0;
     public ListProvider<CoordHolder> LIST_PROVIDER = ListProvider.LP_LINKEDLIST;
 
     public class CoordHolder {
@@ -97,6 +100,20 @@ public class Octree<T> {
             if (overlap(LRF, X1, Y1, Z1, X2, Y2, Z2)) LRF.findAll(X1, Y1, Z1, X2, Y2, Z2, ret);
         }
 
+        
+        public void collectAll(Oct container, List<CoordHolder> ret)
+        {
+            if (ULN == null)
+            {
+                ret.addAll(container.items);
+                return;
+            }
+            collectAll(ULN, ret);  collectAll(ULF, ret);
+            collectAll(URN, ret);  collectAll(URF, ret);
+            collectAll(LLN, ret);  collectAll(LLF, ret);
+            collectAll(LRN, ret);  collectAll(LRF, ret);
+        }
+
         private boolean overlap(Oct q, double X1, double Y1, double Z1, double X2, double Y2, double Z2)
         {
             if (q.x2 < X1 || q.y2 < Y1 || q.z2 < Z1 || q.x1 > X2 || q.y1 > Y2 || q.z1 > Z2) return false;
@@ -105,10 +122,19 @@ public class Octree<T> {
 
         public CoordHolder place(double x, double y, double z, T o)
         {
-            return place(new CoordHolder(x, y, z, o, null), 0);
+            CoordHolder h = place_(new CoordHolder(x, y, z, o, null), 0);
+            dirty = 0;
+            return h;
+        }
+        
+        public CoordHolder place(CoordHolder h, int n)
+        {
+            h = place_(h, n);
+            dirty = 0;
+            return h;
         }
 
-        public CoordHolder place(CoordHolder h, int n)
+        private CoordHolder place_(CoordHolder h, int n)
         {
             double x = h.x,
                     y = h.y,
@@ -135,10 +161,10 @@ public class Octree<T> {
                     {
                         initParent(x, y, z);
                     }
-                    return parent.place(h, n+1);
+                    return parent.place_(h, n+1);
                 }
             }
-            if (items.size() == LEAF_MAX_OBJECTS)
+            if (items.size() >= LEAF_MAX_OBJECTS && dirty == 0)
             {
                 expand(n+1);
             }
@@ -155,6 +181,12 @@ public class Octree<T> {
         }
 
         private CoordHolder place_(CoordHolder h, Oct oct, int n)
+        {
+            oct = narrowDown(oct, h);
+            return oct.place_(h, n+1);
+        }
+
+        private Oct narrowDown(Oct oct, CoordHolder h)
         {
             while (oct.ULN != null)
             {
@@ -181,13 +213,14 @@ public class Octree<T> {
                     }
                 }
             }
-            return oct.place(h, n+1);
+            return oct;
         }
-
+        
         private void expand(int n)
         {
             if (LLN == null)
             {
+                dirty++;
                 initOct();
             }
             for(CoordHolder c : items)
@@ -248,10 +281,10 @@ public class Octree<T> {
                 case 1: parent.URN = this; break;
                 case 2: parent.LLN = this; break;
                 case 3: parent.LRN = this; break;
-                case 5: parent.ULF = this; break;
-                case 6: parent.URF = this; break;
-                case 7: parent.LLF = this; break;
-                case 8: parent.LRF = this; break;
+                case 4: parent.ULF = this; break;
+                case 5: parent.URF = this; break;
+                case 6: parent.LLF = this; break;
+                case 7: parent.LRF = this; break;
 
             }
             root = parent;
@@ -267,7 +300,7 @@ public class Octree<T> {
                 {
                     initParent(item.x, item.y, item.z);
                 }
-                parent.place(item, n+1);
+                parent.place_(item, n+1);
             }
         }
 
@@ -319,11 +352,57 @@ public class Octree<T> {
 
     public List<CoordHolder> findAll(double x1, double y1, double z1, double x2, double y2, double z2)
     {
+        if (root == null)
+            return Collections.EMPTY_LIST;
         List<CoordHolder> ret = new ArrayList<CoordHolder>();
         root.findAll(x1, y1, z1, x2, y2, z2, ret);
         return ret;
     }
 
+    public List<CoordHolder> findAll(double x, double y, double z, double radius)
+    {
+        List<Octree<T>.CoordHolder> list = findAll(
+                x - radius, y - radius, z - radius, 
+                x + radius, y + radius, z + radius)
+                ;
+        double r2 = radius * radius;
+        if (list instanceof LinkedList)
+        {
+            //LinkedList<Octree<T>.CoordHolder> ll = (LinkedList)list;
+            Iterator<Octree<T>.CoordHolder> it = list.iterator();
+            while(it.hasNext())
+            {
+                Octree<T>.CoordHolder holder = it.next();
+                double dist = 
+                        Math.pow(holder.x - x, 2)
+                        + Math.pow(holder.y - y, 2)
+                        + Math.pow(holder.z - z, 2)
+                        ;
+                if (dist > r2)
+                {
+                    it.remove();
+                }
+            }
+            return list;
+        }
+        List<CoordHolder> ret = new ArrayList<CoordHolder>(list.size());
+        for(CoordHolder holder : list)
+        {
+            double dist = 
+                    Math.pow(holder.x - x, 2)
+                    + Math.pow(holder.y - y, 2)
+                    + Math.pow(holder.z - z, 2)
+                    ;
+            if (dist <= r2)
+            {
+                ret.add(holder);
+            }
+        }
+        return ret;
+    }
+
+
+    
     public CoordHolder place(double x, double y, double z, T o)
     {
         if (root == null)
